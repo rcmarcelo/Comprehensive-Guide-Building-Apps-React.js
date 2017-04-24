@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- import react -->
+		<script src="https://unpkg.com/react@latest/dist/react.js"></script>
+	    <script src="https://unpkg.com/react-dom@latest/dist/react-dom.js"></script>
+	    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
+		<meta charset="utf-8">
+		<title>Component LifeCycle</title>
+
+		<style>
+
+		</style>
+	</head>
+	<body>
+	  <div id="app"></div>
+
+	  	<!-- react jsx script -->
+		<script type="text/babel">
+
+			var FriendsContainer = React.createClass({
+				getInitialState: function(){
+					alert('In getInitialState');
+					return {
+						name: 'Marcelo'
+					}
+				},
+
+				// Invoked once before first render
+				componentWillMount: function(){
+					// Calling setState here does not cause a re-render
+					alert('In Component Will Mount');
+				},
+
+
+				// Invoked once after the first render
+				componentDidMount: function(){
+					// You now have access to this.getDOMNode()
+					alert('In Component Did Mount');
+				},
+
+				// Invoked whenever there is a prop change
+				// Called BEFORE render
+				componentWillReceiveProps: function(nextProps){
+					// Not called for the initial render
+					// Previous props can be accessed by this.props
+					// Calling setState here does not trigger an an additional re-render
+					alert('In Component Will Receive Props');
+				},
+
+				// Called IMMEDIATELY before a component is unmounted
+				componentWillUnmount: function(){},
+
+
+				render: function(){
+					return (
+						<div>
+							Hello, {this.state.name}
+						</div>
+					)
+				}
+			});
+
+			ReactDOM.render(<FriendsContainer />, document.getElementById('app'));
+
+		</script>
+	</body>
+</html>

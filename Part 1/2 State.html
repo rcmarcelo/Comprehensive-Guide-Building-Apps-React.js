@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- import react -->
+		<script src="https://unpkg.com/react@latest/dist/react.js"></script>
+	    <script src="https://unpkg.com/react-dom@latest/dist/react-dom.js"></script>
+	    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
+		<meta charset="utf-8">
+		<title>HelloName Change State</title>
+
+		<style>
+
+		</style>
+	</head>
+	<body>
+	  <div id="app"></div>
+
+	  	<!-- react jsx script -->
+		<script type="text/babel">
+
+			var HelloUser = React.createClass({
+				//set the initial state of the component
+				getInitialState: function(){
+					return {
+						username: 'Marcelo'
+					}
+				},
+				//called when the input value is changed
+				handleChange: function(e){
+					//set username's state with the input's value (and updates DOM)
+					this.setState({
+						username: e.target.value
+					});
+				},
+				render: function(){
+					//using username inside component
+					//adding a input that receives the username and allows changing
+					return (
+						<div>
+							Hello {this.state.username} <br />
+							Change Name: <input type="text" value={this.state.username} onChange={this.handleChange} />
+						</div>
+					)
+				}
+			});
+
+			ReactDOM.render(<HelloUser />, document.getElementById('app'));
+
+		</script>
+	</body>
+</html>

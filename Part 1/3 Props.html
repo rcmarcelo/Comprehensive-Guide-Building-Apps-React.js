@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- import react -->
+		<script src="https://unpkg.com/react@latest/dist/react.js"></script>
+	    <script src="https://unpkg.com/react-dom@latest/dist/react-dom.js"></script>
+	    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
+		<meta charset="utf-8">
+		<title>List to Child Component Setter Props TypeCheck</title>
+
+		<style>
+
+		</style>
+	</head>
+	<body>
+	  <div id="app"></div>
+
+	  	<!-- react jsx script -->
+		<script type="text/babel">
+
+			var FriendsContainer = React.createClass({
+				//set the initial state of the component
+				getInitialState: function(){
+					return {
+						name: 'Marcelo',
+						friends: ['Friend1', 'Friend2', 'Friend3']
+					}
+				},
+				//function to set friends array adding new values (and updates DOM)
+				addFriend: function(friend){
+					this.setState({
+						friends: this.state.friends.concat([friend])
+					});
+				},
+				render: function(){
+					//using name inside component
+					//adding input to add new friends
+					//showing friends list
+					return (
+						<div>
+							<h3> Name: {this.state.name} </h3>
+							<AddFriend addNew={this.addFriend} />
+							<ShowList names={this.state.friends} />
+						</div>
+					)
+				}
+			});
+
+			var AddFriend = React.createClass({
+				//set the initial state of the component (empty)
+				getInitialState: function(){
+					return {newFriend: ''}
+				},
+
+				//requires that addFriend is a function and that it’s passed into the AddFriend component.
+				propTypes: {
+				    addNew: React.PropTypes.func.isRequired
+				  },
+
+				//set newFriend value on typing
+				updateNewFriend: function(e){
+					this.setState({newFriend: e.target.value});
+				},
+
+				handleAddNew: function(){
+					this.props.addNew(this.state.newFriend); //pass the newFriend value to the parent componet via props (addFriend button)
+					this.setState({newFriend: ''}); //set newFriend to empty 
+				},
+
+				render: function(){
+					//render an input that will receive the name to be added to the list
+					//render the button to fire the event.
+					return (
+						<div>
+							<input type="text" value={this.state.newFriend} onChange={this.updateNewFriend} />
+							<button onClick={this.handleAddNew}> Add Friend </button>
+						</div>
+					);
+				}
+			});
+
+			var ShowList = React.createClass({
+				//if no array of friends is given to the ShowList component, it will default to an empty array.
+				getDefaultProps: function(){
+					return {
+						names: []
+					}
+				},
+				render: function(){
+					//generates a new array adding <li> tags on the names with Array.pototype.map
+					var listItems = this.props.names.map(function(friend){
+						return <li> {friend} </li>;
+					});
+					//renders the friends list
+					return (
+						<div>
+							<h3> Friends </h3>
+							<ul>
+								{listItems}
+							</ul>
+						</div>
+					)
+				}
+			});
+
+			ReactDOM.render(<FriendsContainer />, document.getElementById('app'));
+
+		</script>
+	</body>
+</html>
